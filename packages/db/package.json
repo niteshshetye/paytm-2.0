@@ -13,10 +13,18 @@
   "exports": {
     "./client": "./src/index.ts"
   },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }

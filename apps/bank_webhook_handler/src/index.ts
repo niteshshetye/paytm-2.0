@@ -1,6 +1,9 @@
+require("dotenv").config();
 import express from "express";
 import bodyParser from "body-parser";
 import db from "@repo/db/client";
+
+const PORT = process.env.PORT || 3005;
 
 const app = express();
 
@@ -51,6 +54,6 @@ app.post("/hdfcWebhook", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`webhook server is running on port: ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`webhook server is running on port: ${PORT}`);
 });

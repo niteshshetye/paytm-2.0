@@ -50,6 +50,12 @@ export const authOptions = {
             data: {
               number: credentials.phone,
               password: hashPassword,
+              Balance: {
+                create: {
+                  amount: 0,
+                  locked: 0,
+                },
+              },
             },
           });
 

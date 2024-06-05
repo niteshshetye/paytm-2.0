@@ -24,6 +24,18 @@ app.post("/hdfcWebhook", async (req, res) => {
     amount: req.body.amount,
   };
 
+  // TODO: check is onRamptxn already done or not
+  const response = await db.onRampTransaction.findUnique({
+    where: {
+      token: paymentInformation.token,
+    },
+  });
+
+  if (response?.status === "Success") {
+    res.status(200).json({ message: "Already Transfered" });
+    return;
+  }
+
   try {
     // transaction
     await db.$transaction([
@@ -47,7 +59,7 @@ app.post("/hdfcWebhook", async (req, res) => {
       }),
     ]);
 
-    res.status(200).json({ message: "Captured" });
+    res.status(201).json({ message: "Captured" });
   } catch (error) {
     console.log(error);
     return res.status(411).json({ message: "Error while processing webhook" });

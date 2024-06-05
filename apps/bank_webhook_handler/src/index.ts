@@ -24,7 +24,6 @@ app.post("/hdfcWebhook", async (req, res) => {
     amount: req.body.amount,
   };
 
-  // TODO: check is onRamptxn already done or not
   const response = await db.onRampTransaction.findUnique({
     where: {
       token: paymentInformation.token,

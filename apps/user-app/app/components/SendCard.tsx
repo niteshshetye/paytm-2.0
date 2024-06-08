@@ -9,6 +9,20 @@ import { p2pTransfer } from "../lib/actions/p2pTransfer";
 export function SendCard() {
   const [number, setNumber] = useState("");
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSendClick = async () => {
+    try {
+      setLoading(true);
+      await p2pTransfer(number, amount);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isDisabled = !number || !amount;
 
   return (
     <div className="h-[90vh]">
@@ -32,9 +46,9 @@ export function SendCard() {
           />
           <div className="pt-4 flex justify-center">
             <Button
-              onClick={async () => {
-                await p2pTransfer(number, amount);
-              }}
+              disabled={isDisabled}
+              onClick={handleSendClick}
+              loading={loading}
             >
               Send
             </Button>

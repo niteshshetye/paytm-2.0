@@ -3,7 +3,7 @@ import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import { Select } from "@repo/ui/select";
 import { TextInput } from "@repo/ui/text-input";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createOnRamptxn } from "../lib/actions/createOnRamptxn";
 
 const SUPPORTED_BANKS = [
@@ -19,21 +19,26 @@ const SUPPORTED_BANKS = [
 
 export const AddMoney = () => {
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
   const [selectedBank, setSelectedBank] = useState(
     SUPPORTED_BANKS[0]?.name || ""
   );
-
-  // const [redirectUrl, setRedirectUrl] = useState(
-  //   SUPPORTED_BANKS[0]?.redirectUrl
-  // );
 
   const handleAmountChange = (amount: string) => {
     setAmount(amount);
   };
 
   const handleAddMoney = async () => {
-    await createOnRamptxn(selectedBank, amount);
+    try {
+      setLoading(true);
+      await createOnRamptxn(selectedBank, amount);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const isDisabled = !amount;
 
   return (
     <Card title="Add Money">
@@ -48,9 +53,6 @@ export const AddMoney = () => {
         <Select
           onSelect={(value) => {
             setSelectedBank(value);
-            // setRedirectUrl(
-            //   SUPPORTED_BANKS.find((x) => x.name === value)?.redirectUrl || ""
-            // );
           }}
           options={SUPPORTED_BANKS.map((x) => ({
             key: x.name,
@@ -59,10 +61,9 @@ export const AddMoney = () => {
         />
         <div className="flex justify-center pt-4">
           <Button
-            onClick={() => {
-              handleAddMoney();
-              // window.location.href = redirectUrl || "";
-            }}
+            onClick={handleAddMoney}
+            disabled={isDisabled}
+            loading={loading}
           >
             Add Money
           </Button>

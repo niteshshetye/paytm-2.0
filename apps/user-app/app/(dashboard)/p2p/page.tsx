@@ -10,7 +10,11 @@ async function getP2pTransaction() {
 
   const txns = await prisma.p2pTransfer.findMany({
     where: {
-      fromUserId: session?.user?.id,
+      OR: [{ fromUserId: session?.user?.id }, { toUserId: session?.user?.id }],
+    },
+    take: 10,
+    orderBy: {
+      timestamp: "desc",
     },
   });
 
@@ -20,6 +24,7 @@ async function getP2pTransaction() {
     amount: t.amount,
     fromUserId: t.fromUserId,
     toUserId: t.toUserId,
+    userId: session?.user?.id,
   }));
 }
 

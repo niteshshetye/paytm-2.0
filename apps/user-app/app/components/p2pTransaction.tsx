@@ -7,6 +7,7 @@ interface ITransactions {
   time: Date;
   fromUserId: string;
   toUserId: string;
+  userId: string;
 }
 
 interface P2pTransactionProps {
@@ -25,9 +26,14 @@ export const P2pTransaction = ({ transactions }: P2pTransactionProps) => {
     <Card title="Recent Transactions">
       <div className="pt-2">
         {transactions.map((t) => (
-          <div className="flex justify-between" key={t.id}>
+          <div
+            className="flex justify-between p-2 border-2 my-1 border-stone-800"
+            key={t.id}
+          >
             <div>
-              <div className="text-sm">Debited INR</div>
+              <div className="text-sm">
+                {`${t.userId === t.fromUserId ? "Debited" : "Credited"}`} INR
+              </div>
               <div className="text-slate-600 text-xs">
                 {t.time.toDateString()}
               </div>

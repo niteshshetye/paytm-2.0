@@ -9,10 +9,7 @@ const DECIMAL = 100;
 export const createOnRamptxn = async (provider: string, amount: string) => {
   const session = await getServerSession(authOptions);
 
-  console.log({ session });
-
   if (!session && !session.user && !session.user?.id) {
-    console.log("User not logged In");
     return {
       statusCode: 403,
       message: "User not logged In",

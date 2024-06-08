@@ -12,7 +12,6 @@ export const p2pTransfer = async (phone: string, amount: string) => {
 
     //   check user is logged in or not
     if (!session && !session.user && !session.user.id) {
-      console.log("User not logged In");
       return {
         statusCode: 403,
         message: "User not logged In",

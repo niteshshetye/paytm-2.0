@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
-  const alice = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { number: "9145109481" },
     update: {},
     create: {
@@ -28,12 +28,10 @@ async function main() {
       },
     },
   });
-
-  console.log({ alice });
 }
 
 main()
   .then(async () => {
     await prisma.$disconnect();
   })
-  .catch((error) => console.log(error));
+  .catch((error) => console.error(error));

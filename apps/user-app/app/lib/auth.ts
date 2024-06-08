@@ -65,7 +65,7 @@ export const authOptions = {
             email: user.number,
           };
         } catch (error) {
-          console.log(error);
+          console.error(error);
           return null;
         }
       },

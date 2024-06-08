@@ -1,5 +1,11 @@
 import { Card } from "@repo/ui/card";
 
+const STATUS: Record<string, string> = {
+  Success: "Creadited",
+  Failure: "Failed",
+  Processing: "Processing",
+};
+
 export const OnRampTransactions = ({
   transactions,
 }: {
@@ -23,15 +29,18 @@ export const OnRampTransactions = ({
     <Card title="Recent Transactions">
       <div className="pt-2">
         {transactions.map((t) => (
-          <div className="flex justify-between" key={t.id}>
+          <div
+            className="flex justify-between p-2 border-2 my-1 border-stone-800"
+            key={t.id}
+          >
             <div>
-              <div className="text-sm">Received INR</div>
+              <div className="text-sm">{`${STATUS[t.status]} INR`}</div>
               <div className="text-slate-600 text-xs">
                 {t.time.toDateString()}
               </div>
             </div>
             <div className="flex flex-col justify-center">
-              + Rs {t.amount / 100}
+              Rs {t.amount / 100}
             </div>
           </div>
         ))}

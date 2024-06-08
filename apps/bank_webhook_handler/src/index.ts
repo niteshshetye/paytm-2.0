@@ -60,11 +60,11 @@ app.post("/hdfcWebhook", async (req, res) => {
 
     res.status(201).json({ message: "Captured" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(411).json({ message: "Error while processing webhook" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`webhook server is running on port: ${PORT}`);
+  console.warn(`webhook server is running on port: ${PORT}`);
 });

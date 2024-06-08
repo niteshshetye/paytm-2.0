@@ -12,37 +12,35 @@ export function SendCard() {
 
   return (
     <div className="h-[90vh]">
-      <Center>
-        <Card title="Send">
-          <div className="min-w-72 pt-2">
-            <TextInput
-              placeholder={"Phone number"}
-              label="Phone Number"
-              onChange={(value) => {
-                setNumber(value);
+      <Card title="Send">
+        <div className="min-w-72 pt-2">
+          <TextInput
+            placeholder={"Phone number"}
+            label="Phone Number"
+            onChange={(value) => {
+              setNumber(value);
+            }}
+            value={number}
+          />
+          <TextInput
+            placeholder={"Amount"}
+            label="Amount"
+            onChange={(value) => {
+              setAmount(value);
+            }}
+            value={amount}
+          />
+          <div className="pt-4 flex justify-center">
+            <Button
+              onClick={async () => {
+                await p2pTransfer(number, amount);
               }}
-              value={number}
-            />
-            <TextInput
-              placeholder={"Amount"}
-              label="Amount"
-              onChange={(value) => {
-                setAmount(value);
-              }}
-              value={amount}
-            />
-            <div className="pt-4 flex justify-center">
-              <Button
-                onClick={async () => {
-                  await p2pTransfer(number, amount);
-                }}
-              >
-                Send
-              </Button>
-            </div>
+            >
+              Send
+            </Button>
           </div>
-        </Card>
-      </Center>
+        </div>
+      </Card>
     </div>
   );
 }

@@ -83,6 +83,14 @@ export const p2pTransfer = async (phone: string, amount: string) => {
           },
         },
       });
+      await txn.p2pTransfer.create({
+        data: {
+          amount: transferAmount,
+          timestamp: new Date(),
+          toUserId: toUser.id,
+          fromUserId: fromUser.userId,
+        },
+      });
     });
 
     return {

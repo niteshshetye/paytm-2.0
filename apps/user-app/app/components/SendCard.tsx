@@ -14,7 +14,11 @@ export function SendCard() {
   const handleSendClick = async () => {
     try {
       setLoading(true);
-      await p2pTransfer(number, amount);
+      const response = await p2pTransfer(number, amount);
+
+      if (response.statusCode >= 400) {
+        alert(response.message);
+      }
     } catch (error) {
       console.error(error);
     } finally {

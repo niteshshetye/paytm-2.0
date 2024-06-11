@@ -6,6 +6,12 @@ const STATUS: Record<string, string> = {
   Processing: "Processing",
 };
 
+const STATUS_COLOR: Record<string, string> = {
+  Success: "text-green-600",
+  Failure: "text-red-600",
+  Processing: "text-orange-600",
+};
+
 export const OnRampTransactions = ({
   transactions,
 }: {
@@ -39,7 +45,9 @@ export const OnRampTransactions = ({
                 {t.time.toDateString()}
               </div>
             </div>
-            <div className="flex flex-col justify-center">
+            <div
+              className={`flex flex-col justify-center ${STATUS_COLOR[t.status]}`}
+            >
               Rs {t.amount / 100}
             </div>
           </div>

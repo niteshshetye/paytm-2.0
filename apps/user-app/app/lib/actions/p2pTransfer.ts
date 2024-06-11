@@ -12,10 +12,7 @@ export const p2pTransfer = async (phone: string, amount: string) => {
 
     //   check user is logged in or not
     if (!session && !session.user && !session.user.id) {
-      return {
-        statusCode: 403,
-        message: "User not logged In",
-      };
+      throw new Error("User not logged In");
     }
 
     // check is phone number user is present or not
@@ -25,10 +22,7 @@ export const p2pTransfer = async (phone: string, amount: string) => {
       },
     });
     if (!fromUser) {
-      return {
-        statusCode: 403,
-        message: "User not found",
-      };
+      throw new Error("User not found");
     }
 
     // check is phone number user is present or not
@@ -39,10 +33,7 @@ export const p2pTransfer = async (phone: string, amount: string) => {
     });
 
     if (!toUser) {
-      return {
-        statusCode: 403,
-        message: "User not found",
-      };
+      throw new Error("User not found");
     }
 
     await prisma.$transaction(async (txn) => {
@@ -56,10 +47,10 @@ export const p2pTransfer = async (phone: string, amount: string) => {
       });
 
       if (!fromUser?.amount || fromUser.amount < transferAmount) {
-        return {
-          statusCode: 404,
-          message: "Insufficiant balance",
-        };
+        console.log("insufficiant balance");
+        throw new Error(
+          `User doesn't have enough to send amount: ${transferAmount}`
+        );
       }
 
       await txn.balance.update({
@@ -96,10 +87,10 @@ export const p2pTransfer = async (phone: string, amount: string) => {
       statusCode: 200,
       message: "Money transfered",
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       statusCode: 404,
-      message: "Something went wrong",
+      message: error?.message || "Something went wrong",
     };
   }
 };

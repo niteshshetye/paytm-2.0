@@ -22,27 +22,32 @@ export const P2pTransaction = ({ transactions }: P2pTransactionProps) => {
       </Card>
     );
   }
+
   return (
     <Card title="Recent Transactions">
       <div className="pt-2">
-        {transactions.map((t) => (
-          <div
-            className="flex justify-between p-2 border-2 my-1 border-stone-800"
-            key={t.id}
-          >
-            <div>
-              <div className="text-sm">
-                {`${t.userId === t.fromUserId ? "Debited" : "Credited"}`} INR
+        {transactions.map((t) => {
+          const status = t.userId === t.fromUserId ? "Debited" : "Credited";
+          const color =
+            t.userId !== t.fromUserId ? "text-green-600" : "text-red-600";
+
+          return (
+            <div
+              className="flex justify-between p-2 border-2 my-1 border-stone-800"
+              key={t.id}
+            >
+              <div>
+                <div className="text-sm">{`${status}`} INR</div>
+                <div className="text-slate-600 text-xs">
+                  {t.time.toDateString()}
+                </div>
               </div>
-              <div className="text-slate-600 text-xs">
-                {t.time.toDateString()}
+              <div className={`flex flex-col justify-center ${color}`}>
+                Rs {t.amount / 100}
               </div>
             </div>
-            <div className="flex flex-col justify-center">
-              Rs {t.amount / 100}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </Card>
   );
